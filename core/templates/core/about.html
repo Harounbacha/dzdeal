@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+
+{% block title %}عن DZDeal{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">مرحباً بك في DZDeal</h2>
+                    
+                    <div class="row mb-5">
+                        <div class="col-md-6">
+                            <h4>من نحن</h4>
+                            <p>DZDeal وجهتك الأولى للتسوق الذكي في الجزائر.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>مهمتنا</h4>
+                            <p>نسعى لتوفير تجربة تسوق سهلة وآمنة لجميع الجزائريين، مع ضمان أفضل الأسعار والمنتجات عالية الجودة.</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h4 class="text-center mb-4">لماذا DZDeal؟</h4>
+                            <div class="row text-center">
+                                <div class="col-md-4 mb-4">
+                                    <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                                    <h5>حماية المشتري</h5>
+                                    <p>نضمن حماية كاملة لحقوق المشتري مع سياسة استرداد شاملة</p>
+                                </div>
+                                <div class="col-md-4 mb-4">
+                                    <i class="fas fa-truck fa-3x text-primary mb-3"></i>
+                                    <h5>شحن سريع</h5>
+                                    <p>توصيل سريع وآمن لجميع أنحاء الجزائر</p>
+                                </div>
+                                <div class="col-md-4 mb-4">
+                                    <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                                    <h5>دعم 24/7</h5>
+                                    <p>فريق دعم متخصص جاهز لمساعدتك على مدار الساعة</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-center mb-4">إحصائياتنا</h4>
+                            <div class="row text-center">
+                                <div class="col-md-3 mb-4">
+                                    <h2 class="text-primary">1</h2>
+                                    <p>مستخدم نشط</p>
+                                </div>
+                                <div class="col-md-3 mb-4">
+                                    <h2 class="text-primary">1</h2>
+                                    <p>بائع معتمد</p>
+                                </div>
+                                <div class="col-md-3 mb-4">
+                                    <h2 class="text-primary">1</h2>
+                                    <p>منتج متاح</p>
+                                </div>
+                                <div class="col-md-3 mb-4">
+                                    <h2 class="text-primary">58</h2>
+                                    <p>ولاية مغطاة</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'core:contact' %}" class="btn btn-ebay">تواصل معنا</a>
+                        <a href="{% url 'account_signup' %}" class="btn btn-outline-primary ms-2">انضم إلينا</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

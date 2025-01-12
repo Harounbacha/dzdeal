@@ -1,0 +1,279 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}DZDeal - سوق التسوق الإلكتروني في الجزائر{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="hero-title">تسوق بذكاء. اشترِ بثقة.</h1>
+                <p class="hero-subtitle">أكبر سوق للتجارة الإلكترونية في الجزائر</p>
+                <div class="hero-search">
+                    <form action="{% url 'core:search' %}" method="GET" class="search-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="ما الذي تبحث عنه؟">
+                            <button class="btn btn-ebay" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="hero-features mt-4">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="feature-item">
+                                <i class="fas fa-truck"></i>
+                                <span>توصيل سريع</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>دفع آمن</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-item">
+                                <i class="fas fa-undo"></i>
+                                <span>ضمان الإرجاع</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="feature-item">
+                                <i class="fas fa-headset"></i>
+                                <span>دعم 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="hero-image">
+                    <img src="{% static 'core/images/hero-image.png' %}" alt="Shopping" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="featured-products py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2>منتجات مميزة</h2>
+            <p>اكتشف أفضل العروض والمنتجات المميزة</p>
+        </div>
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-6 col-md-3">
+                <div class="product-card">
+                    <div class="card h-100">
+                        <div class="product-badge">
+                            {% if product.condition == 'new' %}
+                                <span class="badge bg-success">جديد</span>
+                            {% else %}
+                                <span class="badge bg-info">مستعمل</span>
+                            {% endif %}
+                        </div>
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="product-price">{{ product.price }} دج</p>
+                            <div class="product-meta">
+                                <span class="seller">
+                                    <i class="fas fa-store"></i> {{ product.seller.username }}
+                                </span>
+                                <span class="stock {% if product.stock > 0 %}text-success{% else %}text-danger{% endif %}">
+                                    {% if product.stock > 0 %}
+                                        متوفر
+                                    {% else %}
+                                        نفذ المخزون
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'core:product_detail' product.slug %}" class="btn btn-ebay btn-sm flex-grow-1">عرض التفاصيل</a>
+                                {% if user.is_authenticated %}
+                                <button class="btn btn-outline-danger btn-sm favorite-btn" 
+                                        data-product-id="{{ product.id }}"
+                                        data-is-favorite="{% if product in user.favorite_set.all %}true{% else %}false{% endif %}">
+                                    <i class="fas fa-heart{% if product not in user.favorite_set.all %}-broken{% endif %}"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Latest Products -->
+<section class="latest-products py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2>أحدث المنتجات</h2>
+            <p>تصفح آخر المنتجات المضافة</p>
+        </div>
+        <div class="row g-4">
+            {% for product in latest_products %}
+            <div class="col-6 col-md-3">
+                <div class="product-card">
+                    <div class="card h-100">
+                        <div class="product-badge">
+                            {% if product.condition == 'new' %}
+                                <span class="badge bg-success">جديد</span>
+                            {% else %}
+                                <span class="badge bg-info">مستعمل</span>
+                            {% endif %}
+                        </div>
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="product-price">{{ product.price }} دج</p>
+                            <div class="product-meta">
+                                <span class="seller">
+                                    <i class="fas fa-store"></i> {{ product.seller.username }}
+                                </span>
+                                <span class="stock {% if product.stock > 0 %}text-success{% else %}text-danger{% endif %}">
+                                    {% if product.stock > 0 %}
+                                        متوفر
+                                    {% else %}
+                                        نفذ المخزون
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'core:product_detail' product.slug %}" class="btn btn-ebay btn-sm flex-grow-1">عرض التفاصيل</a>
+                                {% if user.is_authenticated %}
+                                <button class="btn btn-outline-danger btn-sm favorite-btn" 
+                                        data-product-id="{{ product.id }}"
+                                        data-is-favorite="{% if product in user.favorite_set.all %}true{% else %}false{% endif %}">
+                                    <i class="fas fa-heart{% if product not in user.favorite_set.all %}-broken{% endif %}"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'core:product_list' %}" class="btn btn-outline-primary">عرض جميع المنتجات</a>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-choose-us py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2>لماذا DZDeal؟</h2>
+            <p>نحن نقدم أفضل تجربة تسوق في الجزائر</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>تسوق آمن</h4>
+                    <p>نضمن حماية معلوماتك الشخصية وبياناتك المالية</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h4>أفضل الأسعار</h4>
+                    <p>نقدم أفضل الأسعار التنافسية في السوق</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h4>جودة مضمونة</h4>
+                    <p>نضمن جودة جميع المنتجات المعروضة</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Download App -->
+<section class="download-app py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2>حمل تطبيق DZDeal</h2>
+                <p>احصل على تجربة تسوق أفضل مع تطبيقنا للهواتف الذكية</p>
+                <div class="app-buttons">
+                    <a href="#" class="btn btn-dark me-2">
+                        <i class="fab fa-google-play"></i> Google Play
+                    </a>
+                    <a href="#" class="btn btn-dark">
+                        <i class="fab fa-apple"></i> App Store
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'core/images/app-mockup.png' %}" alt="Mobile App" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    $('.favorite-btn').on('click', function() {
+        var button = $(this);
+        var productId = button.data('product-id');
+        var isFavorite = button.data('is-favorite') === 'true';
+        
+        $.ajax({
+            url: '{% url "core:toggle_favorite" %}',
+            type: 'POST',
+            data: {
+                'product_id': productId,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    // تحديث حالة الزر
+                    button.data('is-favorite', !isFavorite);
+                    var icon = button.find('i');
+                    if (!isFavorite) {
+                        icon.removeClass('fa-heart-broken').addClass('fa-heart');
+                    } else {
+                        icon.removeClass('fa-heart').addClass('fa-heart-broken');
+                    }
+                    
+                    // إظهار رسالة نجاح
+                    showMessage('success', response.message);
+                } else {
+                    showMessage('danger', response.message || 'حدث خطأ ما');
+                }
+            },
+            error: function() {
+                showMessage('danger', 'حدث خطأ في الاتصال');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

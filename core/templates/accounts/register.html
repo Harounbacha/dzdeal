@@ -1,0 +1,103 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}إنشاء حساب جديد - E-Commerce Store{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold text-primary">إنشاء حساب جديد</h2>
+                        <p class="text-muted">قم بإنشاء حسابك للوصول إلى جميع المميزات</p>
+                    </div>
+
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            يرجى تصحيح الأخطاء أدناه
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        {% for field in form %}
+                        <div class="form-floating mb-3 text-end">
+                            {{ field.errors }}
+                            {{ field }}
+                            <label for="{{ field.id_for_label }}" class="float-end">{{ field.label }}</label>
+                        </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3 py-2">
+                            <i class="fas fa-user-plus me-2"></i>إنشاء حساب
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="mb-0">لديك حساب بالفعل؟ 
+                            <a href="{% url 'accounts:login' %}" class="text-primary text-decoration-none">تسجيل الدخول</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-floating > label {
+        right: 0;
+        left: auto;
+        padding-right: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    
+    .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0b5ed7;
+        border-color: #0a58ca;
+        transform: translateY(-1px);
+    }
+
+    .card {
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+
+<script>
+    // Form validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+{% endblock %}

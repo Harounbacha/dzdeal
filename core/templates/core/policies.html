@@ -1,0 +1,125 @@
+{% extends 'core/base.html' %}
+
+{% block title %}سياسات الموقع - DZDeal{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">سياسات الموقع</h2>
+                    
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#terms">الشروط والأحكام</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#privacy">سياسة الخصوصية</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#returns">سياسة الإرجاع</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#shipping">سياسة الشحن</button>
+                                </div>
+                            </nav>
+                            
+                            <div class="tab-content mt-4" id="nav-tabContent">
+                                <!-- Terms and Conditions -->
+                                <div class="tab-pane fade show active" id="terms">
+                                    <h4>الشروط والأحكام</h4>
+                                    <p>مرحباً بك في DZDeal. باستخدامك لموقعنا، فإنك توافق على الشروط والأحكام التالية:</p>
+                                    
+                                    <h5 class="mt-4">1. شروط الاستخدام</h5>
+                                    <ul>
+                                        <li>يجب أن يكون عمرك 18 عاماً أو أكثر لاستخدام خدماتنا</li>
+                                        <li>يجب تقديم معلومات دقيقة وصحيحة عند التسجيل</li>
+                                        <li>يحظر استخدام الموقع لأي أغراض غير قانونية</li>
+                                        <li>نحتفظ بالحق في تعليق أو إنهاء الحسابات المخالفة</li>
+                                    </ul>
+
+                                    <h5 class="mt-4">2. المنتجات والأسعار</h5>
+                                    <ul>
+                                        <li>جميع الأسعار بالدينار الجزائري وتشمل الضرائب</li>
+                                        <li>نحتفظ بالحق في تغيير الأسعار في أي وقت</li>
+                                        <li>الصور المعروضة للمنتجات هي للتوضيح فقط</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Privacy Policy -->
+                                <div class="tab-pane fade" id="privacy">
+                                    <h4>سياسة الخصوصية</h4>
+                                    <p>نحن نلتزم بحماية خصوصيتك وبياناتك الشخصية.</p>
+
+                                    <h5 class="mt-4">1. جمع المعلومات</h5>
+                                    <p>نقوم بجمع المعلومات التالية:</p>
+                                    <ul>
+                                        <li>المعلومات الشخصية (الاسم، العنوان، رقم الهاتف)</li>
+                                        <li>معلومات الدفع</li>
+                                        <li>سجل المشتريات</li>
+                                        <li>بيانات التصفح</li>
+                                    </ul>
+
+                                    <h5 class="mt-4">2. استخدام المعلومات</h5>
+                                    <p>نستخدم معلوماتك للأغراض التالية:</p>
+                                    <ul>
+                                        <li>معالجة الطلبات والمدفوعات</li>
+                                        <li>التواصل معك بخصوص طلباتك</li>
+                                        <li>تحسين خدماتنا</li>
+                                        <li>إرسال العروض والتحديثات (بموافقتك)</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Returns Policy -->
+                                <div class="tab-pane fade" id="returns">
+                                    <h4>سياسة الإرجاع</h4>
+                                    <p>نحن نضمن رضاك عن مشترياتك. إذا لم تكن راضياً، يمكنك إرجاع المنتج خلال 14 يوماً.</p>
+
+                                    <h5 class="mt-4">شروط الإرجاع</h5>
+                                    <ul>
+                                        <li>يجب أن يكون المنتج في حالته الأصلية</li>
+                                        <li>يجب الاحتفاظ بجميع الملصقات والتغليف</li>
+                                        <li>يجب تقديم إيصال الشراء</li>
+                                        <li>لا يمكن إرجاع المنتجات المخصصة</li>
+                                    </ul>
+
+                                    <h5 class="mt-4">عملية الإرجاع</h5>
+                                    <ol>
+                                        <li>قم بتعبئة نموذج الإرجاع</li>
+                                        <li>قم بتغليف المنتج بشكل آمن</li>
+                                        <li>أرسل المنتج عبر خدمة الشحن المعتمدة</li>
+                                        <li>سيتم رد المبلغ خلال 7-14 يوم عمل</li>
+                                    </ol>
+                                </div>
+
+                                <!-- Shipping Policy -->
+                                <div class="tab-pane fade" id="shipping">
+                                    <h4>سياسة الشحن</h4>
+                                    <p>نحن نوفر خدمة شحن سريعة وموثوقة لجميع أنحاء الجزائر.</p>
+
+                                    <h5 class="mt-4">مناطق التغطية</h5>
+                                    <ul>
+                                        <li>متوفر في جميع ولايات الجزائر</li>
+                                        <li>مدة التوصيل: 3-7 أيام عمل</li>
+                                        <li>شحن مجاني للطلبات فوق 5000 دج</li>
+                                    </ul>
+
+                                    <h5 class="mt-4">تتبع الشحنة</h5>
+                                    <p>يمكنك تتبع شحنتك من خلال:</p>
+                                    <ul>
+                                        <li>حسابك على الموقع</li>
+                                        <li>رقم التتبع المرسل عبر البريد الإلكتروني</li>
+                                        <li>الاتصال بخدمة العملاء</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <p>هل لديك أسئلة حول سياساتنا؟</p>
+                        <a href="{% url 'core:contact' %}" class="btn btn-ebay">تواصل معنا</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'core/base.html' %}
+
+{% block title %}الملف الشخصي - DZDeal{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-circle fa-4x text-primary mb-3"></i>
+                        <h5 class="card-title">{{ user.username }}</h5>
+                        <p class="text-muted">عضو منذ {{ user.date_joined|date:"F Y" }}</p>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="{% url 'core:profile' %}" class="list-group-item list-group-item-action active">
+                            <i class="fas fa-user me-2"></i> الملف الشخصي
+                        </a>
+                        <a href="{% url 'core:orders' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-box me-2"></i> طلباتي
+                        </a>
+                        <a href="{% url 'core:favorites' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-heart me-2"></i> المفضلة
+                        </a>
+                        <a href="{% url 'core:seller_center' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-store me-2"></i> المتجر الخاص بي
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">معلومات الحساب</h4>
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">اسم المستخدم</label>
+                                <input type="text" class="form-control" value="{{ user.username }}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">البريد الإلكتروني</label>
+                                <input type="email" class="form-control" value="{{ user.email }}" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">الاسم الأول</label>
+                                <input type="text" class="form-control" value="{{ user.first_name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">اسم العائلة</label>
+                                <input type="text" class="form-control" value="{{ user.last_name }}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">العنوان</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">رقم الهاتف</label>
+                            <input type="tel" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-ebay">حفظ التغييرات</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">تغيير كلمة المرور</h4>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">كلمة المرور الحالية</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">كلمة المرور الجديدة</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">تأكيد كلمة المرور الجديدة</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-ebay">تغيير كلمة المرور</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

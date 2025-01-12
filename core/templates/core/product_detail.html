@@ -1,0 +1,238 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Product Images -->
+        <div class="col-md-6">
+            <div class="card">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 400px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <i class="fas fa-image text-muted" style="font-size: 4rem;"></i>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Product Info -->
+        <div class="col-md-6">
+            <h1 class="mb-3">{{ product.name }}</h1>
+            
+            <div class="mb-3">
+                <span class="badge bg-primary">{{ product.category.name }}</span>
+                <span class="badge bg-{% if product.stock > 0 %}success{% else %}danger{% endif %}">
+                    {% if product.stock > 0 %}متوفر{% else %}نفذ المخزون{% endif %}
+                </span>
+                <span class="badge bg-info">{{ product.get_condition_display }}</span>
+            </div>
+            
+            <p class="text-muted mb-4">{{ product.description }}</p>
+            
+            <div class="d-flex align-items-center mb-4">
+                <h3 class="mb-0 me-3">{{ product.price }} دج</h3>
+                {% if product.stock > 0 %}
+                <span class="text-muted">{{ product.stock }} قطعة متوفرة</span>
+                {% endif %}
+            </div>
+            
+            {% if user.is_authenticated and product.stock > 0 and user != product.seller %}
+            <form class="mb-4 add-to-cart-form">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-auto">
+                        <div class="input-group" style="width: 150px;">
+                            <button class="btn btn-outline-secondary decrease-quantity" type="button">-</button>
+                            <input type="number" class="form-control text-center quantity-input" value="1" min="1" max="{{ product.stock }}">
+                            <button class="btn btn-outline-secondary increase-quantity" type="button">+</button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-shopping-cart me-2"></i>إضافة إلى السلة
+                        </button>
+                    </div>
+                </div>
+            </form>
+            {% elif not user.is_authenticated %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                يرجى <a href="{% url 'account_login' %}">تسجيل الدخول</a> لإضافة المنتج إلى السلة
+            </div>
+            {% elif user == product.seller %}
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                لا يمكنك شراء منتجك الخاص
+            </div>
+            {% endif %}
+            
+            <div class="d-flex gap-2 mb-4">
+                {% if user.is_authenticated %}
+                <button class="btn btn-outline-primary add-to-favorites" data-product-id="{{ product.id }}">
+                    <i class="{% if is_favorite %}fas{% else %}far{% endif %} fa-heart me-2"></i>
+                    المفضلة
+                </button>
+                {% endif %}
+                <button class="btn btn-outline-secondary" onclick="share()">
+                    <i class="fas fa-share-alt me-2"></i>
+                    مشاركة
+                </button>
+            </div>
+            
+            <!-- Seller Info -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">معلومات البائع</h5>
+                    <p class="card-text">
+                        <i class="fas fa-user me-2"></i>{{ product.seller.username }}<br>
+                        <i class="fas fa-calendar-alt me-2"></i>تاريخ النشر: {{ product.created_at|date:"d/m/Y" }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Related Products -->
+    {% if related_products %}
+    <div class="mt-5">
+        <h3 class="mb-4">منتجات مشابهة</h3>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            {% for related in related_products %}
+            <div class="col">
+                <div class="card h-100">
+                    {% if related.image %}
+                    <img src="{{ related.image.url }}" class="card-img-top" alt="{{ related.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related.name }}</h5>
+                        <p class="card-text text-muted">{{ related.description|truncatechars:100 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">{{ related.price }} دج</span>
+                            <a href="{{ related.get_absolute_url }}" class="btn btn-outline-primary btn-sm">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Add to cart functionality
+    $('.add-to-cart-form').submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var quantity = form.find('.quantity-input').val();
+        
+        $.ajax({
+            url: '{% url "core:add_to_cart" %}',
+            type: 'POST',
+            data: {
+                'product_id': '{{ product.id }}',
+                'quantity': quantity,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    showMessage('success', response.message);
+                    // Update cart count
+                    $('.cart-count').text(response.cart_count);
+                } else {
+                    showMessage('error', response.message);
+                }
+            },
+            error: function() {
+                showMessage('error', 'حدث خطأ أثناء إضافة المنتج إلى السلة');
+            }
+        });
+    });
+    
+    // Quantity controls
+    $('.decrease-quantity').click(function() {
+        var input = $(this).siblings('.quantity-input');
+        var value = parseInt(input.val());
+        if (value > 1) {
+            input.val(value - 1);
+        }
+    });
+    
+    $('.increase-quantity').click(function() {
+        var input = $(this).siblings('.quantity-input');
+        var value = parseInt(input.val());
+        var max = parseInt(input.attr('max'));
+        if (value < max) {
+            input.val(value + 1);
+        }
+    });
+    
+    // Add to favorites
+    $('.add-to-favorites').click(function(e) {
+        e.preventDefault();
+        var button = $(this);
+        var icon = button.find('i');
+        
+        $.ajax({
+            url: '{% url "core:toggle_favorite" %}',
+            type: 'POST',
+            data: {
+                'product_id': '{{ product.id }}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Toggle heart icon
+                    if (icon.hasClass('far')) {
+                        icon.removeClass('far').addClass('fas');
+                    } else {
+                        icon.removeClass('fas').addClass('far');
+                    }
+                    showMessage('success', response.message);
+                }
+            },
+            error: function() {
+                showMessage('error', 'حدث خطأ أثناء تحديث المفضلة');
+            }
+        });
+    });
+});
+
+// Share functionality
+function share() {
+    if (navigator.share) {
+        navigator.share({
+            title: "{{ product.name }}",
+            text: "{{ product.description|truncatechars:100 }}",
+            url: window.location.href
+        }).catch(function() {
+            copyToClipboard();
+        });
+    } else {
+        copyToClipboard();
+    }
+}
+
+function copyToClipboard() {
+    var tempInput = document.createElement('input');
+    tempInput.value = window.location.href;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+    showMessage('success', 'تم نسخ رابط المنتج');
+}
+</script>
+{% endblock %}
+
+{% endblock %}

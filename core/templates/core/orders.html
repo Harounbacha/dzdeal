@@ -1,0 +1,103 @@
+{% extends 'core/base.html' %}
+
+{% block title %}طلباتي - DZDeal{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-circle fa-4x text-primary mb-3"></i>
+                        <h5 class="card-title">{{ user.username }}</h5>
+                        <p class="text-muted">عضو منذ {{ user.date_joined|date:"F Y" }}</p>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="{% url 'core:profile' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-user me-2"></i> الملف الشخصي
+                        </a>
+                        <a href="{% url 'core:orders' %}" class="list-group-item list-group-item-action active">
+                            <i class="fas fa-box me-2"></i> طلباتي
+                        </a>
+                        <a href="{% url 'core:favorites' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-heart me-2"></i> المفضلة
+                        </a>
+                        <a href="{% url 'core:seller_center' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-store me-2"></i> المتجر الخاص بي
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">طلباتي</h4>
+                    
+                    {% if orders %}
+                        {% for order in orders %}
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3">
+                                            <p class="text-muted mb-0">رقم الطلب</p>
+                                            <h6 class="mb-0">#{{ order.id }}</h6>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p class="text-muted mb-0">التاريخ</p>
+                                            <h6 class="mb-0">{{ order.created_at|date:"d/m/Y" }}</h6>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p class="text-muted mb-0">الحالة</p>
+                                            <span class="badge bg-{{ order.status|yesno:'success,warning,danger' }}">
+                                                {{ order.get_status_display }}
+                                            </span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p class="text-muted mb-0">المجموع</p>
+                                            <h6 class="mb-0">{{ order.total }} دج</h6>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr>
+                                    
+                                    {% for item in order.items.all %}
+                                        <div class="row align-items-center mb-2">
+                                            <div class="col-md-2">
+                                                <img src="{{ item.product.image.url }}" class="img-fluid rounded" alt="{{ item.product.name }}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="mb-0">{{ item.product.name }}</h6>
+                                                <small class="text-muted">الكمية: {{ item.quantity }}</small>
+                                            </div>
+                                            <div class="col-md-4 text-end">
+                                                <h6 class="mb-0">{{ item.price }} دج</h6>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    
+                                    <div class="mt-3">
+                                        <button class="btn btn-sm btn-outline-primary">تتبع الطلب</button>
+                                        <button class="btn btn-sm btn-outline-danger">إلغاء الطلب</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
+                            <h5>لا توجد طلبات حتى الآن</h5>
+                            <p class="text-muted">ابدأ التسوق الآن واستمتع بأفضل المنتجات</p>
+                            <a href="{% url 'core:product_list' %}" class="btn btn-ebay">تصفح المنتجات</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

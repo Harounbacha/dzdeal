@@ -1,0 +1,57 @@
+[
+    {
+        "model": "core.category",
+        "pk": 1,
+        "fields": {
+            "name": "الإلكترونيات",
+            "slug": "electronics",
+            "description": "هواتف، حواسيب، وأجهزة إلكترونية",
+            "created_at": "2025-01-11T12:00:00Z",
+            "updated_at": "2025-01-11T12:00:00Z"
+        }
+    },
+    {
+        "model": "core.category",
+        "pk": 2,
+        "fields": {
+            "name": "الملابس",
+            "slug": "clothing",
+            "description": "ملابس رجالية ونسائية وأطفال",
+            "created_at": "2025-01-11T12:00:00Z",
+            "updated_at": "2025-01-11T12:00:00Z"
+        }
+    },
+    {
+        "model": "core.category",
+        "pk": 3,
+        "fields": {
+            "name": "المنزل والحديقة",
+            "slug": "home-garden",
+            "description": "أثاث، ديكور، وأدوات منزلية",
+            "created_at": "2025-01-11T12:00:00Z",
+            "updated_at": "2025-01-11T12:00:00Z"
+        }
+    },
+    {
+        "model": "core.category",
+        "pk": 4,
+        "fields": {
+            "name": "الرياضة واللياقة",
+            "slug": "sports-fitness",
+            "description": "معدات رياضية وملابس رياضية",
+            "created_at": "2025-01-11T12:00:00Z",
+            "updated_at": "2025-01-11T12:00:00Z"
+        }
+    },
+    {
+        "model": "core.category",
+        "pk": 5,
+        "fields": {
+            "name": "الكتب والقرطاسية",
+            "slug": "books-stationery",
+            "description": "كتب، مجلات، وأدوات مكتبية",
+            "created_at": "2025-01-11T12:00:00Z",
+            "updated_at": "2025-01-11T12:00:00Z"
+        }
+    }
+]

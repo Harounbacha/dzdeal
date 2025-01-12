@@ -1,0 +1,138 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}تسجيل الدخول - E-Commerce Store{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold text-primary">مرحباً بعودتك</h2>
+                        <p class="text-muted">يرجى تسجيل الدخول للمتابعة</p>
+                    </div>
+
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            اسم المستخدم أو كلمة المرور غير صحيحة
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+
+                        <div class="form-floating mb-3 text-end">
+                            <input type="text" name="username" class="form-control" id="username" placeholder="اسم المستخدم" required>
+                            <label for="username" class="float-end">اسم المستخدم</label>
+                        </div>
+
+                        <div class="form-floating mb-3 text-end">
+                            <input type="password" name="password" class="form-control" id="password" placeholder="كلمة المرور" required>
+                            <label for="password" class="float-end">كلمة المرور</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="remember-me" name="remember">
+                                <label class="form-check-label" for="remember-me">تذكرني</label>
+                            </div>
+                            <a href="{% url 'accounts:password_reset' %}" class="text-primary text-decoration-none">نسيت كلمة المرور؟</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3 py-2">
+                            <i class="fas fa-sign-in-alt me-2"></i>تسجيل الدخول
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="mb-0">ليس لديك حساب؟ 
+                            <a href="{% url 'accounts:register' %}" class="text-primary text-decoration-none">إنشاء حساب جديد</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Login Options -->
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-body text-center">
+                    <p class="text-muted mb-4">أو سجل الدخول باستخدام</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button class="btn btn-outline-dark px-4">
+                            <i class="fab fa-google me-2"></i>Google
+                        </button>
+                        <button class="btn btn-outline-primary px-4">
+                            <i class="fab fa-facebook-f me-2"></i>Facebook
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS -->
+<style>
+    .form-floating > label {
+        right: 0;
+        left: auto;
+        padding-right: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    
+    .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0b5ed7;
+        border-color: #0a58ca;
+        transform: translateY(-1px);
+    }
+
+    .card {
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .social-login-btn {
+        transition: all 0.3s ease;
+    }
+
+    .social-login-btn:hover {
+        transform: translateY(-2px);
+    }
+</style>
+
+<!-- Custom JavaScript -->
+<script>
+    // Form validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+{% endblock %}
