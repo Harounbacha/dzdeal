@@ -3,7 +3,7 @@ services:
     name: dzdeal
     env: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn ecommerce_project.wsgi:application --config gunicorn.conf.py"
+    startCommand: "gunicorn wsgi:app"
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.7
